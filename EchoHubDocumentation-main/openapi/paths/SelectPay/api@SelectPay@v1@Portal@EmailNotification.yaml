@@ -6,29 +6,15 @@ post:
   x-internal: true
   operationId: SELECTPORTALEMAILNOTIFICATION
   parameters:
-    - name: x-RequestUrl
-      in: header
-      required: true
-      schema:
-        type: string
-        $ref: ../../components/headers/xRequestUrl.yaml
-    - name: x-RequestFromAPP
-      in: header
-      required: true
-      schema:
-        type: string
-        $ref: ../../components/headers/xRequestFromAPP.yaml
+    
+    
     - name: x-Authorization
       in: header
       required: true
       schema:
         type: string
         $ref: ../../components/headers/xAuthorization.yaml
-    - name: x-AccessId
-      in: header
-      schema:
-        type: string
-        $ref: ../../components/headers/xAccessId.yaml
+    
   description: |
    This API is consumed by the SelectPay portal application, allowing consumers to send email notifications through SendGrid. Whenever a request is made to the send email endpoint, it verifies all the details before the email is sent. If there are any errors, a response is sent back for each request. 
 
