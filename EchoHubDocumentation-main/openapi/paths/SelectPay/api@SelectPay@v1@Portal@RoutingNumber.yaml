@@ -1,0 +1,85 @@
+post:
+  tags:
+    - SelectPay Portal
+     
+  summary: SelectPay Portal - Routing Number
+  x-internal: true
+  operationId: SELECTPORTALROUTINGNUMBER
+  parameters:
+    - name: x-RequestUrl
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xRequestUrl.yaml
+    - name: x-RequestFromAPP
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xRequestFromAPP.yaml
+    - name: x-Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xAuthorization.yaml
+    - name: x-AccessId
+      in: header
+      schema:
+        type: string
+        $ref: ../../components/headers/xAccessId.yaml
+  description: |
+   This endpoint allows the API user to get the bank name associated with a routing number so that the payee can verify if the bank account is added correctly.  
+
+   The data for getting the bank name is first validated in the ECHO Hub system and then the request is sent to the SelectPay library. Once, the bank name is obtained, ECHO Hub sends a success message along with the bank name.  
+  
+   Once the user is authenticated, this endpoint generates an authorization token by using the API key and the Client key. This authorization token is valid for 30 minutes.
+ 
+  requestBody:
+    description: This endpoint is used to Edit a user in the clearinghouse portal.
+    required: true
+    content:
+      application/json:
+        schema: 
+          $ref: ../../components/schemas/SelectPay/Request/SelectPayRoutingNumber.yaml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/SelectPay/Response/SelectPayRoutingNumber.yaml
+          examples:
+            mapName_001:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "001"
+              value:
+                ReponseCode: "001"
+                ReponseCodeDesc: Successful Transaction
+                ResponseTransactionID: Transaction Number
+                TransLog:                  
+                 - ""
+                    
+            mapName_900:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "900"
+              value:
+                ReponseCode: "900"
+                ReponseCodeDesc: Transaction Failed
+                ResponseTransactionID: Transaction Number
+                TransError:  
+                - ErrorCode: "8000"
+                  ErrorDesc:
+                - ErrorCode: "8002"
+                  ErrorDesc: Unauthorized Access
+                - ErrorCode: "1013"
+                  ErrorDesc: Invalid or Missing Application ID
+                - ErrorCode: "1014"
+                  ErrorDesc: Invalid or Missing Draft Number
+                - ErrorCode: "156"
+                  ErrorDesc: Invalid or Missing Zip Code
+                - ErrorCode: "1023"
+                  ErrorDesc: Invalid or Missing Guest User Token
+                - ErrorCode: "162"
+                  ErrorDesc: Invalid or Missing Routing Number
