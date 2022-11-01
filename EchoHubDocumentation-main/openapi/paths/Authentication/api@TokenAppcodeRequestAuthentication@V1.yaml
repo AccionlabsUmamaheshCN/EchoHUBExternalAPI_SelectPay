@@ -118,7 +118,7 @@ get:
             System.out.println(response.body());
           }
         }
-    - lang: Java
+    - lang: Node.js
       source: | 
         import fetch from 'node-fetch';
 

@@ -5,30 +5,13 @@ post:
   summary: SelectPay Portal - eCheck
   x-internal: true
   operationId: SELECTPORTALECHECK
-  parameters:
-    - name: x-RequestUrl
-      in: header
-      required: true
-      schema:
-        type: string
-        $ref: ../../components/headers/xRequestUrl.yaml
-    - name: x-RequestFromAPP
-      in: header
-      required: true
-      schema:
-        type: string
-        $ref: ../../components/headers/xRequestFromAPP.yaml
+  parameters:   
     - name: x-Authorization
       in: header
       required: true
       schema:
         type: string
-        $ref: ../../components/headers/xAuthorization.yaml
-    - name: x-AccessId
-      in: header
-      schema:
-        type: string
-        $ref: ../../components/headers/xAccessId.yaml
+        $ref: ../../components/headers/xAuthorization.yaml    
   description: |
    This endpoint is used for clearinghouse portal user registration. The API allows clearinghouse portal consumers to register themselves on the portal. Once registered, the users can access information in the clearinghouse with post-approval from the clearinghouse admins.  
    
@@ -80,3 +63,283 @@ post:
                   ErrorDesc: Invalid or Missing Zip Code
                 - ErrorCode: "1023"
                   ErrorDesc: Invalid or Missing GuestUserToken
+
+  x-code-samples: 
+    - lang: 'C#'                
+      source: |                     
+        using System;
+        using System.Net.Http;
+        using System.Threading.Tasks;
+        using System.Text;
+        using Newtonsoft.Json.Linq;
+        
+        public class Program
+        {
+          private readonly IHttpClientFactory _httpClientFactory;
+          public static async Task Main(string[] args)
+          {
+            var client = _httpClientFactory.CreateClient();           
+            client.DefaultRequestHeaders.Add("x-Authorization", "string");            
+            JObject json = JObject.Parse(@"{
+                APIFormIdentifierID: 3,
+                ApplicationID: 0,
+                DraftNumber: 0,
+                Zip: 0,
+                GuestUserToken: 'string'
+              }");
+            var postData = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+            var request = await client.PostAsync("https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal", postData);
+            var response = await request.Content.ReadAsStringAsync();
+        
+            Console.WriteLine(response);
+          }
+        }
+    - lang: 'Java'        
+      source: |
+        import java.net.*;
+        import java.net.http.*;
+        import java.util.*;
+        
+        public class App {
+          public static void main(String[] args) throws Exception {
+            var httpClient = HttpClient.newBuilder().build();
+        
+            var payload = String.join("\n"
+              , "{"
+              , " \"APIFormIdentifierID\": 3,"
+              , " \"ApplicationID\": 0,"
+              , " \"DraftNumber\": 0,"
+              , " \"Zip\": 0,"
+              , " \"GuestUserToken\": \"string\""
+              , "}"
+            );
+        
+            var host = "https://sandbox.echohealthincapi.com";
+            var pathname = "/api/SelectPay/v1/Portal";
+            var request = HttpRequest.newBuilder()
+              .POST(HttpRequest.BodyPublishers.ofString(payload))
+              .uri(URI.create(host + pathname ))
+              .header("Content-Type", "application/json")              
+              .header("x-Authorization", "string")              
+              .build();
+        
+            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+            System.out.println(response.body());
+          }
+        }
+    - lang: 'curl'        
+      source: |
+        curl -i -X POST \
+        'https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal' \
+        -H 'Content-Type: application/json' \        
+        -H 'x-Authorization: string' \                
+        -d '{
+          "APIFormIdentifierID": 3,
+          "ApplicationID": 0,
+          "DraftNumber": 0,
+          "Zip": 0,
+          "GuestUserToken": "string"
+        }'
+    - lang : 'Node.js'        
+      source: |
+        import fetch from 'node-fetch';
+
+        async function run() {
+          const resp = await fetch(
+            `https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',                
+                'x-Authorization': 'string',                
+              },
+              body: JSON.stringify({
+                APIFormIdentifierID: 3,
+                ApplicationID: 0,
+                DraftNumber: 0,
+                Zip: 0,
+                GuestUserToken: 'string'
+              })
+            }
+          );
+        
+          const data = await resp.json();
+          console.log(data);
+        }
+        
+        run();
+    - lang: JavaScript
+      source: |
+        const resp = await fetch(
+          `https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',             
+              'x-Authorization': 'string',              
+            },
+            body: JSON.stringify({
+              APIFormIdentifierID: 3,
+              ApplicationID: 0,
+              DraftNumber: 0,
+              Zip: 0,
+              GuestUserToken: 'string'
+            })
+          }
+        );
+        
+        const data = await resp.json();
+        console.log(data);  
+    - lang: python
+      source: |
+          const resp = await fetch(
+            `https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',                
+                'x-Authorization': 'string',                
+              },
+              body: JSON.stringify({
+                APIFormIdentifierID: 3,
+                ApplicationID: 0,
+                DraftNumber: 0,
+                Zip: 0,
+                GuestUserToken: 'string'
+              })
+            }
+          );
+          
+          const data = await resp.json();
+          console.log(data);        
+    - lang: Java 8 with Apache
+      source: |
+          import org.apache.http.util.EntityUtils;
+          import org.apache.http.NameValuePair;
+          import org.apache.http.client.HttpClient;
+          import org.apache.http.client.entity.UrlEncodedFormEntity;
+          import org.apache.http.client.methods.HttpPost;
+          import org.apache.http.impl.client.HttpClientBuilder;
+          import org.apache.http.message.BasicNameValuePair;
+          import org.apache.http.entity.StringEntity;
+          import org.json.JSONObject;
+          import org.json.JSONArray;
+          import java.util.ArrayList;
+          import java.util.List;
+          import org.apache.http.entity.mime.MultipartEntity;
+          import org.apache.http.entity.mime.content.StringBody;
+          
+          public class App {
+            public static void main(String[] args ) throws java.io.IOException {
+              HttpClient httpClient = HttpClientBuilder.create().build();
+          
+              HttpPost request = new HttpPost("https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal");
+              request.setHeader("Content-Type", "application/json");              
+              request.setHeader("x-Authorization", "string");            
+              JSONObject payload = new JSONObject();
+              payload.put("APIFormIdentifierID", 3);
+              payload.put("ApplicationID", 0);
+              payload.put("DraftNumber", 0);
+              payload.put("Zip", 0);
+              payload.put("GuestUserToken", "string");
+              request.setEntity(new StringEntity(payload.toString()));
+              String response = EntityUtils.toString(httpClient.execute(request).getEntity());
+          
+              System.out.println(response);
+            }
+          }
+    - lang: 'GO'          
+      source: |
+        package main
+
+        import (
+          "fmt"
+          "bytes"
+          "net/http"
+          "io/ioutil"
+        )
+        
+        func main() {
+          reqUrl := "https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal"
+          var data = []byte(`{
+            "APIFormIdentifierID": 3,
+            "ApplicationID": 0,
+            "DraftNumber": 0,
+            "Zip": 0,
+            "GuestUserToken": "string"
+          }`)
+          req, _ := http.NewRequest("POST", reqUrl, bytes.NewBuffer(data))
+          req.Header.Add("Content-Type", "application/json")         
+          req.Header.Add("x-Authorization", "string")          
+          res, _ := http.DefaultClient.Do(req)
+          defer res.Body.Close()
+          body, _ := ioutil.ReadAll(res.Body)
+        
+          fmt.Println(res)
+          fmt.Println(string(body))
+        }
+    - lang: PHP
+      source: |
+          /**
+          * Requires libcurl
+          */
+        
+          $curl = curl_init();
+          
+          $payload = array(
+            "APIFormIdentifierID" => 3,
+            "ApplicationID" => 0,
+            "DraftNumber" => 0,
+            "Zip" => 0,
+            "GuestUserToken" => "string"
+          );
+          
+          curl_setopt_array($curl, [
+            CURLOPT_HTTPHEADER => [
+              "Content-Type: application/json",              
+              "x-Authorization: string"             
+            ],
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_URL => "https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "POST",
+          ]);
+          
+          $response = curl_exec($curl);
+          $error = curl_error($curl);
+          
+          curl_close($curl);
+          
+          if ($error) {
+            echo "cURL Error #:" . $error;
+          } else {
+            echo $response;
+          }
+
+    - lang: Ruby
+      source: |
+        require 'json'
+        require 'uri'
+        require 'net/http'
+        require 'openssl'
+        
+        url = URI('https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal')
+        
+        http = Net::HTTP.new(url.host, url.port)
+        http.use_ssl = true
+        
+        request = Net::HTTP::Post.new(url)
+        request['Content-Type'] = 'application/json'      
+        request['x-Authorization'] = 'string'        
+        request.body = {
+          APIFormIdentifierID: 3,
+          ApplicationID: 0,
+          DraftNumber: 0,
+          Zip: 0,
+          GuestUserToken: 'string'
+        }.to_json
+        
+        response = http.request(request)
+        puts response.read_body
+                        
