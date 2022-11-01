@@ -1,0 +1,80 @@
+post:
+  tags:
+    - SelectPay Portal
+     
+  summary: SelectPay Portal - eCheck PDF
+  x-internal: true
+  operationId: SELECTPORTALECHECKPDF
+  parameters:
+    - name: x-RequestUrl
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xRequestUrl.yaml
+    - name: x-RequestFromAPP
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xRequestFromAPP.yaml
+    - name: x-Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xAuthorization.yaml
+    - name: x-AccessId
+      in: header
+      schema:
+        type: string
+        $ref: ../../components/headers/xAccessId.yaml
+  description: |
+   This endpoint allows the API user to request an eCheck from the SelectPay portal application. The eCheck will be requested from Deluxe for the draft number provided in the request. Once the eCheck is created, another request is sent to Deluxe to download an image of the eCheck so that the user can download and/or print the eCheck.  
+
+   The data for creating an eCheck is first validated in the ECHO Hub system and is then sent to the SelectPay library. Once the eCheck is created, ECHO Hub will send a success message.   
+  
+   Once the user is authenticated, this endpoint generates an authorization token by using the API key and the Client key. This authorization token is valid for 30 minutes.
+ 
+  requestBody:
+    description: This endpoint is used to Edit a user in the clearinghouse portal.
+    required: true
+    content:
+      application/json:
+        schema: 
+          $ref: ../../components/schemas/SelectPay/Request/SelectPayeCheckPDF.yaml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/SelectPay/Response/SelectPayeCheckPDF.yaml
+          examples:
+            mapName_001:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "001"
+              value:
+                ReponseCode: "001"
+                ReponseCodeDesc: Successful Transaction
+                ResponseTransactionID: Transaction Number
+                TransLog:                  
+                 - TransResponseCode: "001"
+                   TransResponseCodeDesc: Successful Transaction
+                    
+            mapName_900:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "900"
+              value:
+                ReponseCode: "900"
+                ReponseCodeDesc: Transaction Failed
+                ResponseTransactionID: Transaction Number
+                TransError:  
+                  - ErrorCode: "1013"
+                    ErrorDesc: Invalid or Missing ApplicationId
+                  - ErrorCode: "1014"
+                    ErrorDesc: Invalid or Missing Draft Number
+                  - ErrorCode: "156"
+                    ErrorDesc: Invalid or Missing Zip Code
+                  - ErrorCode: "1023"
+                    ErrorDesc: Invalid or Missing GuestUserToken

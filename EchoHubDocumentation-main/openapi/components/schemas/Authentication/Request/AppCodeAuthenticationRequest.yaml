@@ -1,0 +1,21 @@
+required:
+  - x-Appcode
+  - Origin
+  - Referer
+type: object
+properties:
+  x-Appcode:
+    type: string
+    description: 
+      This is the App Code
+       
+    maxLength: 150
+    minLength: 1
+  Origin:
+    type: string
+    description: This is the url value 
+    maxLength: 100
+  Referer:
+      type: string
+      description: This is the Referer value 
+      maxLength: 100  

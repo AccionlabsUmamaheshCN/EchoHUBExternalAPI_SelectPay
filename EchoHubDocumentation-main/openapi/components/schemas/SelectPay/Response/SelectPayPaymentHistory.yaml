@@ -15,13 +15,12 @@ properties:
       TransLog for Payment Response Code 001:
         type: object
         properties:
-          ResponseCode:
+          TransResponseCode:
             type: string
-            description: Response Code Number
-          ResponseCodeDesc:
+            description: Transaction response code number
+          TransResponseCodeDesc:
             type: string
-            description: Payee Created Successfully
-          
+            description: Successful Transaction
             
   This is the Response for Response Code 900:
     type: object
@@ -40,54 +39,47 @@ properties:
         properties:
           ErrorCode:
             type: string
-            description:  Error Code Number
+            description:  Error code number
           ErrorDesc:
            type: string
-           description: Error Description
-      TransError JSON Validation Failed Code 1061:
+           description: Error description
+           
+      TransError JSON Validation Failed Code 1013:
         type: object
         properties:
           ErrorCode:
             type: integer
-            description: "1061"
+            description: "1013"
           ErrorDesc:
             type: string
-            description: Invalid or Missing LockBox Directory ID
-      TransError JSON Validation Failed Code 1041:
+            description: Invalid or Missing ApplicationId
+               
+      TransError JSON Validation Failed Code 1014:
         type: object
         properties:
           ErrorCode:
             type: integer
-            description: "1041"
+            description: "1014"
           ErrorDesc:
             type: string
-            description: Invalid or Missing Payee ID 
-      TransError JSON Validation Failed Code 1000:
+            description: Invalid or Missing Draft Number
+
+      TransError JSON Validation Failed Code 156:
         type: object
         properties:
           ErrorCode:
             type: integer
-            description: "1000"
+            description: "156"
           ErrorDesc:
             type: string
-            description: Invalid or Missing Payee Name
-      TransError JSON Validation Failed Code 11001:
-          type: object
-          properties:
-            ErrorCode:
-              type: integer
-              description: "11001"
-            ErrorDesc:
-              type: string
-              description: Lockbox Doesn't Exist
-      TransError JSON Validation Failed Code 11002:
-          type: object
-          properties:
-            ErrorCode:
-              type: integer
-              description: "11002"
-            ErrorDesc:
-              type: string
-              description: Payee Already Exists                  
-                      
-          
+            description: Invalid or Missing Zip Code
+      
+      TransError JSON Validation Failed Code 1023:
+        type: object
+        properties:
+          ErrorCode:
+            type: integer
+            description: "1023"
+          ErrorDesc:
+            type: string
+            description: Invalid or Missing GuestUserToken

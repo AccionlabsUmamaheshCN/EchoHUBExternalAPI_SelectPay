@@ -1,10 +1,8 @@
-
-
 openapi: 3.1.0
 info:
-  title: ECHOHUb API
+  title: ECHOHUB API
   description: >-
-    API Endpoints for the Lockbox  clients.
+    API Endpoints for the Select Pay clients.
 
         SandBox url: https://sandbox.echohealthincapi.com/
         Production Url : https://api.echohealthincapi.com/
@@ -15,254 +13,49 @@ info:
     user accessing this API.       
 
     <!-- ReDoc-Inject: <security-definitions> -->
-
   version: v1
 
   contact:
     name: ECHO Health Inc.
     email: Echo.Hub@echohealthinc.com
 
+
 servers:
   - url: https://sandbox.echohealthincapi.com
   - url: https://api.echohealthincapi.com
-security:
-  - x-ApiKey: []
-  - x-ClientKey: []
-
-
+  
+security: 
+    -   {}
+  
 paths:
   #Authorization
-  /api/v1/GetToken:
+  /api/v1//GetToken:
     $ref: paths/Authentication/api@RequestAuthentication@V1.yaml
-  
-
-  
-  #Lockbox
-  /api/LockBox/v1/LockBox:
-    $ref: paths/LockBox/api@LockBox@v1@LockBoxAddressCreate.yaml
-  /api/LockBox/v1/LockBox/{lbxDirectoryId}:
-    put:
-      tags: 
-        -  Lockbox
-      summary: Lockbox - Update 
-      x-internal: true
-      operationId: LockBoxUpdateProcess
-      parameters:
-        - name: lbxDirectoryId
-          in: path 
-          required: true
-          schema:
-            type: string
-        - name: x-Authorization
-          in: header 
-          schema:
-            type: string    
-            $ref: components/headers/xAuthorization.yaml
-      description: |
-       This endpoint allows the user to update a lockbox in the directory of addresses. The data is first validated in the ECHO Hub system and is directed to the ECHO Hub internal lockbox endpoint. The request is then sent to the lockbox express library for updating a lockbox. Once the lockbox is updated, the ECHO Hub system will send a success message.  
-    
-       Once the user is authenticated, this endpoint generates an authorization token by using the API key and the Client key. This authorization token is valid for 30 minutes.
-      requestBody:
-        description: This endpoint allows is used to update a lockbox in the directory of addresses.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: components/schemas/LockBox/Request/LockBoxUpdateProcess.yaml
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: components/schemas/LockBox/Response/LockBoxUpdateProcessResponse.yaml
-              examples:
-                mapName_001:
-                  description: Please scroll the above dropdown list for more response codes 
-                  summary: "001"
-                  value:
-                    ReponseCode: "001"
-                    ReponseCodeDesc: Successful Transaction
-                    ResponseTransactionID: Transaction Number
-                    TransLog:                  
-                      - ResponseCode: "001"
-                        ResponseCodeDesc: Lockbox Updated Successfully
-
-                mapName_900:   
-                  description: Please scroll the above dropdown list for more response codes          
-                  summary: "900"
-                  value:
-                    ReponseCode: "900"
-                    ReponseCodeDesc: Transaction Failed
-                    ResponseTransactionID: Transaction Number 
-                    TransError:  
-                      - ErrorCode: 1092
-                        ErrorDesc: Invalid Address Line 1
-                      - ErrorCode: 154
-                        ErrorDesc: Invalid or Missing City
-                      - ErrorCode: 155
-                        ErrorDesc: Invalid or Missing State
-                      - ErrorCode: 156
-                        ErrorDesc: Invalid or Missing Zip Code
-                      - ErrorCode: 150
-                        ErrorDesc: Invalid or Missing Tax ID
-                      - ErrorCode: 1063
-                        ErrorDesc: Agreement Not a Valid Value
-                      - ErrorCode: 2017
-                        ErrorDesc: Status Not a Valid Value 
-    delete:
-      tags:
-        - Lockbox
-      summary: Lockbox - Delete 
-      operationId: LockBoxDeleteProcess
-      parameters:
-        - name: lbxDirectoryId
-          in: path
-          required: true
-          schema: 
-            type: string
-        - name: x-Authorization
-          in: header
-          schema:
-            type: string
-            $ref: components/headers/xAuthorization.yaml
-      description: |
-        This endpoint allows the user to delete a lockbox from the directory of lockboxes. The data is first validated in the ECHO Hub system and is directed to the ECHO Hub internal lockbox endpoint. The request is then sent to the lockbox express library for deleting a lockbox. Once the lockbox is deleted, the ECHO Hub system will send a success message.  
-        
-        This endpoint uses ‘lbxDirectoryId’ as the input parameter.  
-        lbxDirectoryId – This is a unique identifier for a payee and the associated P.O box.  
-        
-        Once the user is authenticated, this endpoint generates an authorization token by using the API key and the Client key. This authorization token is valid for 30 minutes.                             
-      responses:  
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: components/schemas/LockBox/Response/LockBoxDeleteProcessResponse.yaml
-              examples:  
-                mapName_001:
-                  description: Please scroll the above dropdown list for more response codes
-                  summary: "001"
-                  value:
-                    ReponseCode: "001"
-                    ReponseCodeDesc: Successful Transaction
-                    ResponseTransactionID: Transaction Number
-                    TransLog:
-                    - ResponseCode: "001"
-                      ResponseCodeDesc: Lockbox Deleted Successfully 
-                mapName_900:   
-                  description: Please scroll the above dropdown list for more response codes          
-                  summary: "900"
-                  value:
-                    ReponseCode: "900"
-                    ReponseCodeDesc: Transaction Failed
-                    ResponseTransactionID: Transaction Number
-                    TransError:  
-                      - ErrorCode: "11001"
-                        ErrorDesc: Lockbox Doesn't Exist      
+  /api/v1/GetTokenByAppCode:
+    $ref: paths/Authentication/api@TokenAppcodeRequestAuthentication@V1.yaml     
 
 
-
-     
-    
-  # /api/LockBox/v1/Payee:
-  #   $ref: paths/LockBox/api@LockBox@v1@LockBoxpayeeCreate.yaml
-  /api/LockBox/v1/Payee:
-    $ref: paths/LockBox/api@LockBox@v1@LockBoxpayeeCreate.yaml
-    
- 
-  /api/LockBox/v1/Payee/{lbxDirectoryId}/{payeeId}:  
-    $ref: paths/LockBox/api@LockBox@v1@LockBoxPayeeDelete.yaml
-    parameters:
-      - name: lbxDirectoryId
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: payeeId 
-        in: path
-        required: true
-        schema: 
-          type: string 
-  /api/LockBox/v1/Payee/{lbxDirectoryId}:
-   put:
-    tags:
-      - Lockbox
-    summary: Payee - Update
-    operationId: LockBoxPayeeUpdateProcess
-    parameters: 
-      - name: lbxDirectoryId
-        in: path
-        required: true
-        schema: 
-          type: string 
-      
-      - name: x-Authorization
-        in: header
-        required: true
-        schema:
-          type: string
-          $ref: components/headers/xAuthorization.yaml
-           
-          
-    description: This endpoint allows the user to update a payee name in a given lockbox. The data is first validated in the ECHO Hub system and is directed to the ECHO Hub internal lockbox endpoint. The request is then sent to the lockbox express library for updating a payee name in a lockbox. Once a payee’s name is updated, the ECHO Hub system will send a success message.  
-
-
-      Once the user is authenticated, this endpoint generates an authorization token by using the API key and the Client key. This authorization token is valid for 30 minutes.
-  
-    requestBody:
-      description: This endpoint is used to update a payee name in a given lockbox.
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: components/schemas/LockBox/Request/LockBoxPayeeUpdateProcess.yaml
-    responses:
-      '200':
-        description: Success
-        content:
-          application/json:
-            schema:
-              $ref: components/schemas/LockBox/Response/LockBoxPayeeUpdateProcessResponse.yaml
-            examples:
-              mapName_001:   
-                description: Please scroll the above dropdown list for more response codes          
-                summary: "001"
-                value:
-                  ReponseCode: "001"
-                  ReponseCodeDesc: Successful Transaction
-                  ResponseTransactionID: Transaction Number
-                  TransLog:                  
-                    - ResponseCode: "001"
-                      ResponseCodeDesc: Payee Updated Successfully
-  
-              mapName_900:   
-                description: Please scroll the above dropdown list for more response codes          
-                summary: "900"
-                value:
-                  ReponseCode: "900"
-                  ReponseCodeDesc: Transaction Failed
-                  ResponseTransactionID: Transaction Number
-                  TransError:  
-                   -  ErrorCode: "6"
-                      ErrorDesc: Invalid JSON String
-                   -  ErrorCode: "1041"
-                      ErrorDesc: Invalid or Missing Payee ID
-                   -  ErrorCode: "1000"
-                      ErrorDesc: Invalid or Missing Payee Name         
-  /api/LockBox/v1/Lookup:
-    $ref: paths/LockBox/api@LockBox@v1@Lookup.yaml
-  /api/LockBox/v1/Lookup/{BatchTransactionId}:  
-    $ref: paths/LockBox/api@LockBox@v1@LookupStatus.yaml              
-    parameters: 
-      - name: BatchTransactionId
-        in: path
-        required: true
-        schema: 
-          type: string 
-      
-  
+  #SelectPay Portal
+  /api/SelectPay/v1/Portal [Landing Page]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@LandingPage.yaml
+  /api/SelectPay/v1/Portal [User Page]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@ValidationUserCredentials.yaml
+  /api/SelectPay/v1/Portal [eCheck]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@eCheck.yaml
+  /api/SelectPay/v1/Portal [Payment History]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@PaymentHistory.yaml
+  /api/SelectPay/v1/Portal [eCheck PDF]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@eCheckPDF.yaml
+  /api/SelectPay/v1/Portal [Routing Number]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@RoutingNumber.yaml
+  /api/SelectPay/v1/Portal [Payment Form]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@PaymentForm.yaml
+  /api/SelectPay/v1/Portal [Email Notification]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@EmailNotification.yaml
+  /api/SelectPay/v1/Portal [ACH Payment Form]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@ACHPayment.yaml
+  /api/SelectPay/v1/Portal [View EOB]:
+    $ref: paths/SelectPay/api@SelectPay@v1@Portal@ViewEOB.yaml
   
 
 components:
@@ -277,38 +70,40 @@ components:
       description: The Client key
       name: x-ClientKey
       in: header
+    ApiKeyAuth:
+      type: apiKey
+      name: x-Authorization
+      in: header
+      description: Requests should pass an authentication key header.
+    x-Appcode:
+      type: apiKey
+      name: AppCode
+      in: header
+      description: Requests should pass an appcode in  header.  
+    Origin:
+      type: apiKey
+      name: OriginValue
+      in: header
+      description: Requests should pass an Origin in  header.
+    Referer:
+      type: apiKey
+      name: RefererValue
+      in: header
+      description: Requests should pass an Referer in  header.
 
 tags:
   #Authorization
   - name: Authorization
     description: |
       This endpoint helps to generate the Authorization Token for accessing the endpoints.
-  
-  #Lockbox
-  - name: Lockbox
+ 
+    #SelectPay
+  - name: SelectPay Portal
     description: |
-      Lockbox refers to a payment service that helps speed up receiving and processing check payments. With lockbox service, the checks are mailed to a separate P.O (Post Office) box address maintained by the lockbox provider, such as a bank. The checks are collected, opened, scanned, and deposited directly by the bank. Each day, the deposits will be entered into an automated system with details available via web access.
+      SelectPay application portal helps in the processing of payments from one business (Payor) to a consumer (Payee). The application allows the payor to brand the portal and determine the payment modalities to offer the payee. However, SelectPay only initiates the payment processing and issues the payments through third-party services.  
 
-      On the other hand, lockbox express provides a more efficient system to receive and deposit check payments. The checks and any other payment documents are sent electronically and when received are scanned in a single process reducing the manual effort required to handle the documents several times. 
+      When the payee receives an electronic notification that their payment is ready, they can visit the portal and verify with their payment confirmation number and billing zip code. Once verified, they can use the portal to select from payment modality options such as electronic checks for instant printing and deposit, Venmo, Zelle, Direct to Debit card push, and ACH deposit to a checking account.   
 
-      Clients can use the Lockbox APIs to build the directory of eligible P.O. Boxes (lockboxes) and then to submit payment information to determine which payments can be sent electronically to an eligible lockbox.  
-
-      Lockbox payment has three APIs - Lockbox, Lockbox Payee and Lockbox Lookup  
-
-      (1) Lockbox  
-      The Lockbox API is used to maintain a list of a client’s eligible lockboxes for delivering electronic payments to the payees. This helps a client send the payment addresses to ECHO Hub for processing the payments. 
-
-      The lockbox API allows ‘Post’, ‘Put’, and ‘Delete’ operations which correspond to add, update, and delete lockbox addresses respectively.  
-
-
-      (2) Lockbox Payee  
-      Lockbox payee API is used to maintain a list of payees associated with each of the lockboxes. This helps a client deliver electronic payments to the payees using the lockbox express process by sending the payment addresses to ECHO Hub for processing payments.  
-
-      The lockbox payee API allows ‘Post’, ‘Put’, and ‘Delete’ operations for a given lockbox payee which correspond to add, update, and delete payee names respectively.  
-
-      (3) Lockbox Lookup  
-      This API enables the consumer to send a list of payment addresses to perform a lookup for a match on a lockbox in the lockbox directory. Lockbox lookup API helps a client to send payment addresses to ECHO Hub for determining matches to a Lockbox.  
-
-      Lockbox lookup allows ‘Post’ and ‘Get’ operations. The Post method helps to find a lockbox match in the lockbox directory while the Get method helps to know the status of lockbox batch transactions.
+      In addition, the consumer is offered the ability to view the history of payment activity and manage future payment options to a defaulted payment modality type for recurring payments. If in case, a payment notification is not acted on in a timely manner, the payment will drop to a paper check to ensure payment delivery.
 
   

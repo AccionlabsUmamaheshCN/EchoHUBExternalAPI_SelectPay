@@ -1,0 +1,18 @@
+required:
+  - APIFormIdentifierID
+  - NotificationType
+type: object
+properties:
+ 
+  APIFormIdentifierID: 
+    type: integer
+    description: This is a unique identifier that serves the purpose of identifying a particular request. It helps identify and map the request to the correct endpoint.
+    default: 34
+    
+  NotificationType: 
+    type: string
+    description: |
+     This is the unique identifier for the type of email sent. The types are:
+      <img src="https://github.com/Uma78mahesh/EchoHubDocumentation-main--3-/blob/master/EchoHubDocumentation-main/docs/SelectPay_Email_Notification.JPG?raw=true" alt="SelectPay_Email_Notification"/>
+    maxLength: 100
+    minLength: 1 

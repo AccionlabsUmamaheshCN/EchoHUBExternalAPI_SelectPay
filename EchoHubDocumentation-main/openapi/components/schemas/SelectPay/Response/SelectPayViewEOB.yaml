@@ -15,13 +15,9 @@ properties:
       TransLog for Payment Response Code 001:
         type: object
         properties:
-          ResponseCode:
+          TransResponseCodeDesc:
             type: string
-            description: Response Code Number
-          ResponseCodeDesc:
-            type: string
-            description: Payee Deleted Successfully
-          
+            description: PaymentIssued
             
   This is the Response for Response Code 900:
     type: object
@@ -40,18 +36,43 @@ properties:
         properties:
           ErrorCode:
             type: string
-            description:  Error Code Number
+            description:  "8000"
           ErrorDesc:
-           type: string
-           description: Error Description
-      TransError JSON Validation Failed Code 11003:
+           type: object
+           properties:
+            ErrorCode:
+              type: string
+              description:  "8002"
+            ErrorDesc:
+             type: string
+             description: Unauthorized Access
+           
+      TransError JSON Validation Failed Code 1014:
         type: object
         properties:
           ErrorCode:
             type: integer
-            description: "11003"
+            description: "1014"
           ErrorDesc:
             type: string
-            description: Payee Doesn't Exist
-          
-          
+            description: Invalid or Missing Draft Number
+
+      TransError JSON Validation Failed Code 156:
+        type: object
+        properties:
+          ErrorCode:
+            type: integer
+            description: "156"
+          ErrorDesc:
+            type: string
+            description: Invalid or Missing Zip Code
+      
+      TransError JSON Validation Failed Code 1023:
+        type: object
+        properties:
+          ErrorCode:
+            type: integer
+            description: "1023"
+          ErrorDesc:
+            type: string
+            description: Invalid or Missing GuestUserToken

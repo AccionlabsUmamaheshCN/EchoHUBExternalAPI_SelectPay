@@ -3,26 +3,21 @@ get:
     - Authorization  
   summary: Get Authorization Token
   operationId: GetAuthToken
-  parameters:
-    - name: x-ApiKey
-      in: header
-      description: This is the ApiKey which has to be passed in Headers to obtain the Token
-      required: true
-      schema:
-        type: string
-        $ref: ../../components/headers/AuthenticationHeader.yaml
-    - name: x-ClientKey
-      in: header
-      description: This is the ClientKey which has to be passed in Headers to obtain the Token
-      required: true
-      schema:
-        type: string
-        $ref: ../../components/headers/AuthenticationHeader.yaml    
+  security:
+    - x-ApiKey: []
+    - x-ClientKey: []
   description: >
       Once the user is authenticated, this endpoint generates an authorization
       token by using the API key and the Client key. This authorization token is
       valid for 30 minutes.
-  
+  requestBody:
+    description:  |
+      This endpoint is used to generate the Authorization Token.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/schemas/Authentication/Request/AuthenticationRequest.yaml
   responses:
     '200':
       description: Success
@@ -31,44 +26,256 @@ get:
           schema:
             $ref: ../../components/schemas/Authentication/Response/AuthenticationResponse.yaml
           examples:
-            mapName:   
+            mapName_001:   
               description: Please scroll the above dropdown list for more response codes          
               summary: "001"
               value:
-                ReponseCode: Response for Payment Response Code 001
+                ReponseCode: Response for Payment response code 001
                 ReponseCodeDesc: Transaction Approved                
                 TransLog:  
-                  - AuthToken: Authorization Token
+                   - AuthToken: Authorization token
 
-            mapName1:   
+
+            mapName_901:   
               description: Please scroll the above dropdown list for more response codes          
               summary: "901"
               value:
-                ReponseCode: Response for Payment Response Code 901
-                ReponseCodeDesc:  Transaction  Failed
+                ReponseCode: Response for Error  Code 901
+                ReponseCodeDesc:  Invalid Consumer Id.
                 TransError:  
-                  -  ErrorCode: Error Code for 901
-                     ErrorCodeDesc: Invalid Consumer  ID
+                   - ErrorCode: "901"
+                     ErrorCodeDesc: Invalid Customer Id
                      creationdate: Current Date & Time
-            mapName2:   
+            mapName_902:   
                 description: Please scroll the above dropdown list for more response codes          
-                summary: "905"
+                summary: "902"
                 value:
-                  ReponseCode: Response for Payment Response Code 905
-                  ReponseCodeDesc: Transaction  Failed              
+                  ReponseCode: Response for Error Code 902
+                  ReponseCodeDesc: Transaction  Failure              
                   TransError:  
-                    -  ErrorCode: Error Code for 905
+                     - ErrorCode: "902"
                        ErrorCodeDesc: Invalid Endpoint
-                       creationdate: Current Date & Time  
-                       
-            mapName900:   
-                description: Please scroll the above dropdown list for more response codes          
-                summary: "900"
-                value:
-                  ReponseCode: Response for Payment Response Code 900
-                  ReponseCodeDesc: Security Validation Process Failed                
-                  TransError:  
-                    - ErrorCode: Error Code for 900                     
-                      ErrorCodeDesc: Security Validation Process Failed
-                      creationdate: Current Date & Time
-                    
+                       creationdate: Current Date & Time
+  x-code-samples: 
+  - lang: 'C#'                
+    source: |
+    
+      using System;   
+      using RestSharp;
+
+      public class Program
+      {
+        public static  void Main()
+        {
+            var client = new RestClient("https://qa-api.echohealthinc.com/echoexternalapi/api/v1/GetToken");
+                client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+                request.AddHeader("x-ApiKey", "string");
+                request.AddHeader("x-ClientKey", "string");                
+                IRestResponse response =  client.Execute(request);
+                Console.WriteLine(response.Content);
+        }
+      }  
+
+  - lang: curl
+    source: |
+      curl -i -X GET \
+      https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken \
+      -H 'x-ApiKey: YOUR_API_KEY_HERE' \
+      -d '{
+      "x-ApiKey": "string",
+      "x-ClientKey": "string"
+        }'
+  - lang: java
+    source: |
+      import java.net.*;
+      import java.net.http.*;
+      import java.util.*;
+      
+      public class App {
+        public static void main(String[] args) throws Exception {
+          var httpClient = HttpClient.newBuilder().build();
+      
+          
+      
+          var host = "https://sandbox.echohealthinc.com";
+          var pathname = "/echoexternalapi/api/v1/GetToken";
+          var request = HttpRequest.newBuilder()
+            
+            .uri(URI.create(host + pathname ))
+            .header("Content-Type", "application/json")
+            .header("x-ApiKey", "string")
+            .header("x-ClientKey", "string")
+            .build();
+      
+          var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+      
+          System.out.println(response.body());
+        }
+      }
+  - lang: Java
+    source: | 
+      import fetch from 'node-fetch';
+
+      async function run() {
+        const resp = await fetch(
+          `https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-ApiKey': 'string',
+              'x-ClientKey':'string'
+            },
+            
+          }
+        );
+      
+        const data = await resp.json();
+        console.log(data);
+      }
+      
+      run();
+  - lang: JavaScript 
+    source: |
+      const resp = await fetch(
+        `https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-ApiKey': 'string',
+            'x-ClientKey':'string'
+          },            
+        }
+      );
+      
+      const data = await resp.json();
+      console.log(data); 
+  - lang: 'Python' 
+    source: |
+      import requests
+
+      url = "https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken"
+      
+      
+      
+      headers = {
+        "Content-Type": "application/json",
+        "x-ApiKey": "string"
+        "x-ClientKey": "string"
+      }
+      
+      response = requests.get(url, headers=headers)
+      
+      data = response.json()
+      print(data)
+  - lang: Java 8 with Apache
+    source: |
+      import org.apache.http.util.EntityUtils;
+      import org.apache.http.NameValuePair;
+      import org.apache.http.client.HttpClient;
+      import org.apache.http.client.entity.UrlEncodedFormEntity;
+      import org.apache.http.client.methods.HttpGet;
+      import org.apache.http.impl.client.HttpClientBuilder;
+      import org.apache.http.message.BasicNameValuePair;
+      import org.apache.http.entity.StringEntity;
+      import org.json.JSONObject;
+      import org.json.JSONArray;
+      import java.util.ArrayList;
+      import java.util.List;
+      import org.apache.http.entity.mime.MultipartEntity;
+      import org.apache.http.entity.mime.content.StringBody;
+
+      public class App {
+        public static void main(String[] args ) throws java.io.IOException {
+          HttpClient httpClient = HttpClientBuilder.create().build();
+
+          HttpGet request = new HttpGet("https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken");
+          request.setHeader("Content-Type", "application/json");
+          request.setHeader("x-ApiKey", "string");
+          request.setHeader("x-ClientKey", "string");
+          
+          String response = EntityUtils.toString(httpClient.execute(request).getEntity());
+
+          System.out.println(response);
+        }
+      }    
+
+  - lang: GO
+    source: |
+        package main
+
+        import (
+          "fmt"
+          "bytes"
+          "net/http"
+          "io/ioutil"
+        )
+
+        func main() {
+          reqUrl := "https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken"
+          
+          req, _ := http.NewRequest("GET", reqUrl)
+          req.Header.Add("Content-Type", "application/json")
+          req.Header.Add("x-ApiKey", "string")
+          req.Header.Add("x-ClientKey", "string")
+          res, _ := http.DefaultClient.Do(req)
+          defer res.Body.Close()
+          body, _ := ioutil.ReadAll(res.Body)
+
+          fmt.Println(res)
+          fmt.Println(string(body))
+        }
+  -  lang: PHP
+     source: |
+          /**
+          * Requires libcurl
+          */
+        
+          $curl = curl_init();
+          
+          
+          
+          curl_setopt_array($curl, [
+            CURLOPT_HTTPHEADER => [
+              "Content-Type: application/json",
+              "x-ApiKey: string"
+              "x-ClientKey: string"
+            ],
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_URL => "https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "GET",
+          ]);
+          
+          $response = curl_exec($curl);
+          $error = curl_error($curl);
+          
+          curl_close($curl);
+          
+          if ($error) {
+            echo "cURL Error #:" . $error;
+          } else {
+            echo $response;
+          }       
+  - lang : Ruby
+    source: |
+        require 'json'
+        require 'uri'
+        require 'net/http'
+        require 'openssl'
+        
+        url = URI('https://sandbox.echohealthinc.com/echoexternalapi/api/v1/GetToken')
+        
+        http = Net::HTTP.new(url.host, url.port)
+        http.use_ssl = true
+        
+        request = Net::HTTP::Get.new(url)
+        request['Content-Type'] = 'application/json'
+        request['x-ApiKey'] = 'string'
+        request['x-ClientKey'] = 'string'
+        
+        
+        response = http.request(request)
+        puts response.read_body           

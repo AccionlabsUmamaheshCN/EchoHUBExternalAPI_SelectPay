@@ -1,0 +1,65 @@
+type: object
+properties:
+  This is the Response for Response Code 001:
+    type: object
+    properties:
+      ResponseCode:
+        type: string
+        description: Response Code 001
+      ResponseCodeDesc:
+        type: string
+        description: Transaction Approved
+      
+      TransLog for Payment Response Code 001:
+        type: object
+        properties:
+          AuthToken:
+            type: string
+            description: Authorization Token           
+  This is the Response for Response Code 901:
+    type: object
+    properties:
+      ResponseCode:
+        type: string
+        description: Response Code 901
+      ResponseCodeDesc:
+        type: string
+        description: Invalid Consumer Id
+     
+      TransError for Payment Response Code 901:
+        type: object
+        properties:
+          ErrorCode:
+            type: string
+            description: "901"
+          ErrorCodeDesc:
+            type: string
+            description: Invalid Consumer Id
+          creationdate:
+            type: string
+            description: Current Date & Time
+  This is the Response for Response Code 902:
+    type: object
+    properties:
+      ResponseCode:
+        type: string
+        description: Response Code 902
+      ResponseCodeDesc:
+        type: string
+        description: Invalid Endpoint
+      
+      TransError for Payment Response Code 902:
+        type: object
+        properties:
+          ErrorCode:
+            type: string
+            description: "902"
+          ErrorCodeDesc:
+            type: string
+            description: Invalid Endpoint
+          creationdate:
+            type: string
+            description: Current Date & Time          
+           
+                
+                     

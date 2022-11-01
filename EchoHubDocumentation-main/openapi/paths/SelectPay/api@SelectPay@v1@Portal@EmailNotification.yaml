@@ -1,0 +1,65 @@
+post:
+  tags:
+    - SelectPay Portal
+     
+  summary: SelectPay Portal - Email Notification
+  x-internal: true
+  operationId: SELECTPORTALEMAILNOTIFICATION
+  parameters:
+    - name: x-RequestUrl
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xRequestUrl.yaml
+    - name: x-RequestFromAPP
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xRequestFromAPP.yaml
+    - name: x-Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xAuthorization.yaml
+    - name: x-AccessId
+      in: header
+      schema:
+        type: string
+        $ref: ../../components/headers/xAccessId.yaml
+  description: |
+   This API is consumed by the SelectPay portal application, allowing consumers to send email notifications through SendGrid. Whenever a request is made to the send email endpoint, it verifies all the details before the email is sent. If there are any errors, a response is sent back for each request. 
+
+   The data for sending an email notification is first validated in the ECHO Hub system and the data is then passed to the SelectPay library. Once the email is sent, ECHO Hub sends a success message.
+  
+   Once the user is authenticated, this endpoint generates an authorization token by using the API key and the Client key. This authorization token is valid for 30 minutes.
+ 
+  requestBody:
+    description: This endpoint is used to Edit a user in the clearinghouse portal.
+    required: true
+    content:
+      application/json:
+        schema: 
+          $ref: ../../components/schemas/SelectPay/Request/SelectPayEmailNotification.yaml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/SelectPay/Response/SelectPayEmailNotification.yaml
+          examples:
+            
+            mapName_900:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "900"
+              value:
+                ReponseCode: "900"
+                ReponseCodeDesc: Transaction Failed
+                ResponseTransactionID: Transaction Number
+                TransError:  
+                 - LogErrorMessage: Unable to Generate Email Notification
+                 - ErrorCode: "1089"
+                   ErrorDesc: Invalid or Missing NotificationType

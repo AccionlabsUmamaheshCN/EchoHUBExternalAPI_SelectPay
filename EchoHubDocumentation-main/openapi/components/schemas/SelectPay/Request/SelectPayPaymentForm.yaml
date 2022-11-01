@@ -1,0 +1,40 @@
+required:
+  - APIFormIdentifierID
+  - ApplicationID
+  - DraftNumber
+  - Zip
+  - GuestUserToken
+  - PayorSessionID
+type: object
+properties:
+ 
+  APIFormIdentifierID: 
+    type: integer
+    description: This is a unique identifier that serves the purpose of identifying a particular request. It helps identify and map the request to the correct endpoint.
+    default: 42
+    
+  ApplicationID: 
+    type: integer
+    description: This is a unique identification number used to tag the consumer payee to a specific sub-payor configured with the branding details.
+      
+  DraftNumber: 
+    type: integer
+    description: This is a unique 9-digit number on the payment. The draft number helps to get the payment details like check amount, check date, and payee name.
+
+  Zip: 
+    type: integer
+    description: This is the zip code of the payee’s mailing address.
+      
+  GuestUserToken: 
+    type: string
+    description: This token is used to authenticate if the consumer payee is authorized to make a particular request.
+    maxLength: 500
+    minLength: 1  
+    
+  PayorSessionID: 
+    type: string
+    description: The payor session ID is a unique number that an embedded web application server assigns for the duration of a WebPay session.
+    maxLength: 200
+    minLength: 1      
+        
+    

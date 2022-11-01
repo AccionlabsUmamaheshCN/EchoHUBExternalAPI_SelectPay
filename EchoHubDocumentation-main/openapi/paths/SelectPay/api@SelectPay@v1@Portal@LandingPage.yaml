@@ -1,0 +1,252 @@
+post:
+  tags:
+    - SelectPay Portal
+     
+  summary: SelectPay Portal - Landing Page
+  x-internal: true
+  operationId: SELECTPORTALLANDINGPAGE
+  parameters:
+    
+    - name: x-Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xAuthorization.yaml
+    
+  description: |
+   This endpoint consumed by the SelectPay application allows the consumer payee to validate the payment credentials in order to select a payment option.  
+
+   The data for validating the payment credentials are first validated in the ECHO Hub system and are then passed to the SelectPay library. Once the validation is done, the ECHO Hub sends a success message.  
+
+   Once the user is authenticated, this endpoint generates an authorization token by using the API key and the Client key. This authorization token is valid for 30 minutes.
+ 
+  requestBody:
+    description: This endpoint is used to Edit a user in the clearinghouse portal.
+    required: true
+    content:
+      application/json:
+        schema: 
+          $ref: ../../components/schemas/SelectPay/Request/SelectPayLandingPage.yaml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/SelectPay/Response/SelectPayLandingPage.yaml
+          examples:
+            mapName_001:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "001"
+              value:
+                ReponseCode: "001"
+                ReponseCodeDesc: Successful Transaction
+                ResponseTransactionID: Transaction Number
+                TransLog:                  
+                 - ConfigCollections: []
+                   PaymentList: null
+                   
+            mapName_900:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "900"
+              value:
+                ReponseCode: "900"
+                ReponseCodeDesc: Transaction Failed
+                ResponseTransactionID: Transaction Number
+                TransError:         
+                  - ErrorCode: "1012"
+                    ErrorDesc: Invalid or Missing ApplicationIdentifier
+  x-code-samples: 
+    - lang: 'C#'                
+      source: |     
+        using System;
+        using System.Net.Http;
+        using System.Threading.Tasks;
+        using System.Text;
+        using Newtonsoft.Json.Linq;
+        
+        public class Program
+        {
+          private readonly IHttpClientFactory _httpClientFactory;
+          public static async Task Main(string[] args)
+          {
+            var client = _httpClientFactory.CreateClient();            
+            client.DefaultRequestHeaders.Add("x-AccessId", "string");
+            JObject json = JObject.Parse(@"{
+                APIFormIdentifierID: 1,
+                ApplicationIdentifier: 'string'
+              }");
+            var postData = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+            var request = await client.PostAsync("https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal", postData);
+            var response = await request.Content.ReadAsStringAsync();
+        
+            Console.WriteLine(response);
+          }
+        } 
+    
+    - lang: 'Java' 
+      source: |    
+        import java.net.*;
+        import java.net.http.*;
+        import java.util.*;
+        
+        public class App {
+          public static void main(String[] args) throws Exception {
+            var httpClient = HttpClient.newBuilder().build();
+        
+            var payload = String.join("\n"
+              , "{"
+              , " \"APIFormIdentifierID\": 1,"
+              , " \"ApplicationIdentifier\": \"string\""
+              , "}"
+            );
+        
+            var host = "https://sandbox.echohealthincapi.com";
+            var pathname = "/api/SelectPay/v1/Portal";
+            var request = HttpRequest.newBuilder()
+              .POST(HttpRequest.BodyPublishers.ofString(payload))
+              .uri(URI.create(host + pathname ))              
+              .header("x-Authorization", "string")              
+              .build();
+        
+            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+            System.out.println(response.body());
+          }
+        } 
+    - lang: 'curl' 
+      source: |
+          curl -i -X POST \
+          'https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal' \
+          -H 'Content-Type: application/json' \         
+          -H 'x-Authorization: string' \          
+          -d '{
+            "APIFormIdentifierID": 1,
+            "ApplicationIdentifier": "string"
+          }'                     
+    - lang: 'curl' 
+      source: | 
+          import fetch from 'node-fetch';
+
+          async function run() {
+            const resp = await fetch(
+              `https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',                  
+                  'x-Authorization': 'string',                  
+                },
+                body: JSON.stringify({
+                  APIFormIdentifierID: 1,
+                  ApplicationIdentifier: 'string'
+                })
+              }
+            );
+          
+            const data = await resp.json();
+            console.log(data);
+          }
+          
+          run(); 
+    - lang: 'curl' 
+      source: |  
+          const resp = await fetch(
+            `https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',                
+                'x-Authorization': 'string'               
+              },
+              body: JSON.stringify({
+                APIFormIdentifierID: 1,
+                ApplicationIdentifier: 'string'
+              })
+            }
+          );
+          
+          const data = await resp.json();
+          console.log(data);
+    - lang: 'PHP' 
+      source: |  
+          /**
+          * Requires libcurl
+          */
+        
+            $curl = curl_init();
+            
+            $payload = array(
+              "APIFormIdentifierID" => 1,
+              "ApplicationIdentifier" => "string"
+            );
+            
+            curl_setopt_array($curl, [
+              CURLOPT_HTTPHEADER => [
+                "Content-Type: application/json",              
+                "x-Authorization: string"               
+              ],
+              CURLOPT_POSTFIELDS => json_encode($payload),
+              CURLOPT_URL => "https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal",
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_CUSTOMREQUEST => "POST",
+            ]);
+            
+            $response = curl_exec($curl);
+            $error = curl_error($curl);
+            
+            curl_close($curl);
+            
+            if ($error) {
+              echo "cURL Error #:" . $error;
+            } else {
+              echo $response;
+            } 
+    - lang: 'GO' 
+      source: |  
+          package main
+
+          import (
+            "fmt"
+            "bytes"
+            "net/http"
+            "io/ioutil"
+          )
+          
+          func main() {
+            reqUrl := "https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal"
+            var data = []byte(`{
+              "APIFormIdentifierID": 1,
+              "ApplicationIdentifier": "string"
+            }`)
+            req, _ := http.NewRequest("POST", reqUrl, bytes.NewBuffer(data))
+            req.Header.Add("Content-Type", "application/json")            
+            req.Header.Add("x-Authorization", "string")            
+            res, _ := http.DefaultClient.Do(req)
+            defer res.Body.Close()
+            body, _ := ioutil.ReadAll(res.Body)
+          
+            fmt.Println(res)
+            fmt.Println(string(body))
+          } 
+    - lang: 'Python' 
+      source: |  
+          import requests
+
+          url = "https://sandbox.echohealthincapi.com/api/SelectPay/v1/Portal%20[Landing%20Page]"
+          
+          payload = {
+            "APIFormIdentifierID": 1,
+            "ApplicationIdentifier": "string"
+          }
+          
+          headers = {
+            "Content-Type": "application/json",            
+            "x-Authorization": "string",            
+          }
+          
+          response = requests.post(url, json=payload, headers=headers)
+          
+          data = response.json()
+          print(data)                                            
