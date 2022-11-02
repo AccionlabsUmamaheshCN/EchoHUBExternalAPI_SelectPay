@@ -28,8 +28,7 @@ servers:
   - url: https://api.echohealthincapi.com
   
 
-security :
-  - {}
+
    
 paths:
   #Authorization
