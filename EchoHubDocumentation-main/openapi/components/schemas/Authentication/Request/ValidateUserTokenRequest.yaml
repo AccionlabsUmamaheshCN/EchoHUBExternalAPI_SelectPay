@@ -5,7 +5,7 @@ type: object
 properties:
   x-Authorization:
     type: string
-    in: header  
+      
     description: 
       This is the Token to be validated
      

@@ -1,17 +1,21 @@
 get:
   tags:
     - Authorization 
-  summary:  Validate Token
+  summary: Validate API Token
+  x-internal: true
   operationId: ValidateToken
-  security:
-    - x-Appcode: []
-    - Origin: []
-    - Referer: []
+  parameters:        
+    - name: x-Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        $ref: ../../components/headers/xAuthorization.yaml
+    
 
   description: >
-      Once the user is authenticated, this endpoint generates an authorization
-      token by using the App Code. This authorization token is
-      valid for 30 minutes.
+    Once the user token is generated, this endpoint is used to validate the token which is 
+    valid for 30 minutes.
   requestBody:
     description:  |
       This endpoint is used to generate the Authorization Token.
@@ -19,14 +23,14 @@ get:
     content:
       application/json:
         schema:
-          $ref: ../../components/schemas/Authentication/Request/AppCodeAuthenticationRequest.yaml
+          $ref: ../../components/schemas/Authentication/Request/ValidateUserTokenRequest.yaml
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: ../../components/schemas/Authentication/Response/AppcodeAuthenticationResponse.yaml
+            $ref: ../../components/schemas/Authentication/Response/ValidateUserTokenResponse.yaml
           examples:
             mapName_001:   
               description: Please scroll the above dropdown list for more response codes          
