@@ -39,6 +39,7 @@ paths:
     $ref: paths/Authentication/api@TokenAppcodeRequestAuthentication@V1.yaml     
   /api/v1/validateToken:
     $ref: paths/Authentication/api@ValidateToken@V1.yaml
+      
 
 
   #SelectPay Portal
