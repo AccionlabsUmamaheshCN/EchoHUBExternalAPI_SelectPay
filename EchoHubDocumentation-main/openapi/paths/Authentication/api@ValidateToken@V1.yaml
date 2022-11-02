@@ -16,14 +16,14 @@ get:
   description: >
     Once the user token is generated, this endpoint is used to validate the token which is 
     valid for 30 minutes.
-  requestBody:
-    description:  |
-      This endpoint is used to generate the Authorization Token.
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: ../../components/schemas/Authentication/Request/ValidateUserTokenRequest.yaml
+  # requestBody:
+  #   description:  |
+  #     This endpoint is used to generate the Authorization Token.
+    # required: true
+    # content:
+    #   application/json:
+    #     schema:
+    #       $ref: ../../components/schemas/Authentication/Request/ValidateUserTokenRequest.yaml
   responses:
     '200':
       description: Success
