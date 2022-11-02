@@ -7,7 +7,7 @@ info:
         SandBox url: https://sandbox.echohealthincapi.com/
         Production Url : https://api.echohealthincapi.com/
 
-    # Authentication
+    # Authentication 
 
     Authentication is a process by which a system verifies the identity of a
     user accessing this API.       
