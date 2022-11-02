@@ -41,7 +41,7 @@ properties:
         properties:
           ErrorCode:
             type: string
-            description: 900
+            description: "900"
           ErrorCodeDesc:
             type: string
             description: Security Validation Process Failed
@@ -63,7 +63,7 @@ properties:
         properties:
           ErrorCode:
             type: string
-            description: 904
+            description: "904"
           ErrorCodeDesc:
             type: string
             description: Invalid Endpoint for Token
@@ -85,7 +85,7 @@ properties:
         properties:
           ErrorCode:
             type: string
-            description: 907
+            description: "907"
           ErrorCodeDesc:
             type: string
             description: System Error
