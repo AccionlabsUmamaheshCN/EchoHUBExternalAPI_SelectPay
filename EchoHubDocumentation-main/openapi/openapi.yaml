@@ -20,19 +20,24 @@ info:
     email: Echo.Hub@echohealthinc.com
 
 
+
+
+
 servers:
   - url: https://sandbox.echohealthincapi.com
   - url: https://api.echohealthincapi.com
   
 
-  
+security :
+  - {}
+   
 paths:
   #Authorization
   /api/v1//GetToken:
     $ref: paths/Authentication/api@RequestAuthentication@V1.yaml
   /api/v1/GetTokenByAppCode:
     $ref: paths/Authentication/api@TokenAppcodeRequestAuthentication@V1.yaml     
-  /api/v1/validatetoken:
+  /api/v1/validateToken:
     $ref: paths/Authentication/api@ValidateToken@V1.yaml
 
 

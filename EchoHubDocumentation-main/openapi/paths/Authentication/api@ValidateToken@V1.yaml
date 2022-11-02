@@ -1,10 +1,11 @@
 get:
   tags:
     - Authorization 
-  summary: ValidateToken
+  summary: Validate API Token
   operationId: ValidateToken
   security:
-    - x-Authorization: []
+   
+    - x-Appcode: []
     
 
   description: >
