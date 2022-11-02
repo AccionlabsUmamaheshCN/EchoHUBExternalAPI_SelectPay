@@ -1,0 +1,282 @@
+get:
+  tags:
+    - Authorization 
+  summary: ValidateToken
+  operationId: ValidateToken
+  security:
+    - x-Authorization: []
+    
+
+  description: >
+      Once the user token is generated, this endpoint is used to validate the token which is 
+      valid for 30 minutes.
+  requestBody:
+    description:  |
+      This endpoint is used to validate the Authorization Token.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/schemas/Authentication/Request/ValidateUserTokenRequest.yaml
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/Authentication/Response/ValidateUserTokenResponse.yaml
+          examples:
+            mapName_001:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "001"
+              value:
+                ReponseCode: Response for Payment response code 001
+                ReponseCodeDesc: Transaction Approved                
+                TransLog:  
+                   - AuthToken: Authorization token
+
+
+            mapName_900:   
+              description: Please scroll the above dropdown list for more response codes          
+              summary: "900"
+              value:
+                ReponseCode: Response for Error  Code 900
+                ReponseCodeDesc:  Security Validation Process Failed.
+                TransError:  
+                   - ErrorCode: "900"
+                     ErrorCodeDesc: Security Validation Process Failed
+                     creationdate: Current Date & Time
+            mapName_904:   
+                description: Please scroll the above dropdown list for more response codes          
+                summary: "904"
+                value:
+                  ReponseCode: Response for Error Code 904
+                  ReponseCodeDesc: Invalid Endpoint for Token             
+                  TransError:  
+                     - ErrorCode: "902"
+                       ErrorCodeDesc: Invalid Endpoint for Token
+                       creationdate: Current Date & Time
+            mapName_907:   
+            description: Please scroll the above dropdown list for more response codes          
+            summary: "907"
+            value:
+              ReponseCode: Response for Error Code 907
+              ReponseCodeDesc: System Error             
+              TransError:  
+                - ErrorCode: "907"
+                  ErrorCodeDesc: System Error
+                  creationdate: Current Date & Time           
+  x-code-samples: 
+    - lang: 'C#'                
+      source: |
+      
+        using System;   
+        using RestSharp;
+
+        public class Program
+        {
+          public static  void Main()
+          {
+              var client = new RestClient("https://qa-api.echohealthinc.com/echoexternalapi/api/v1/GetToken");
+                  client.Timeout = -1;
+              var request = new RestRequest(Method.GET);
+                  request.AddHeader("x-Authorization", "string");                  
+                  IRestResponse response =  client.Execute(request);
+                  Console.WriteLine(response.Content);
+          }
+        }  
+
+    - lang: curl
+      source: |
+        curl -i -X GET \
+        https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken \
+        -H 'x-Authorization: string' 
+        
+    - lang: java
+      source: |
+        import java.net.*;
+        import java.net.http.*;
+        import java.util.*;
+        
+        public class App {
+          public static void main(String[] args) throws Exception {
+            var httpClient = HttpClient.newBuilder().build();
+        
+            
+        
+            var host = "https://sandbox.echohealthinc.com";
+            var pathname = "/echoexternalapi/api/v1/ValidateToken";
+            var request = HttpRequest.newBuilder()
+              
+              .uri(URI.create(host + pathname ))
+              .header("Content-Type", "application/json")
+              .header("x-Authorization", "string")
+              
+              .build();
+        
+            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+            System.out.println(response.body());
+          }
+        }
+    - lang: Node.js
+      source: | 
+        import fetch from 'node-fetch';
+
+        async function run() {
+          const resp = await fetch(
+            `https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-Authorization': 'string'
+                
+              },
+             
+            }
+          );
+        
+          const data = await resp.json();
+          console.log(data);
+        }
+        
+        run();
+    - lang: JavaScript 
+      source: |
+        const resp = await fetch(
+          `https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-Authorization': 'string'
+              
+            },            
+          }
+        );
+        
+        const data = await resp.json();
+        console.log(data); 
+    - lang: 'Python' 
+      source: |
+        import requests
+
+        url = "https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken"
+        
+        
+        
+        headers = {
+          "Content-Type": "application/json",
+          "x-Authorization": "string"
+         
+
+        }
+        
+        response = requests.get(url, headers=headers)
+        
+        data = response.json()
+        print(data)
+    - lang: Java 8 with Apache
+      source: |
+        import org.apache.http.util.EntityUtils;
+        import org.apache.http.NameValuePair;
+        import org.apache.http.client.HttpClient;
+        import org.apache.http.client.entity.UrlEncodedFormEntity;
+        import org.apache.http.client.methods.HttpGet;
+        import org.apache.http.impl.client.HttpClientBuilder;
+        import org.apache.http.message.BasicNameValuePair;
+        import org.apache.http.entity.StringEntity;
+        import org.json.JSONObject;
+        import org.json.JSONArray;
+        import java.util.ArrayList;
+        import java.util.List;
+        import org.apache.http.entity.mime.MultipartEntity;
+        import org.apache.http.entity.mime.content.StringBody;
+
+        public class App {
+          public static void main(String[] args ) throws java.io.IOException {
+            HttpClient httpClient = HttpClientBuilder.create().build();
+
+            HttpGet request = new HttpGet("https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken");
+            request.setHeader("Content-Type", "application/json");
+            request.setHeader("x-Authorization", "string");                        
+            String response = EntityUtils.toString(httpClient.execute(request).getEntity());
+
+            System.out.println(response);
+          }
+        }    
+
+    - lang: GO
+      source: |
+          package main
+
+          import (
+            "fmt"
+            "bytes"
+            "net/http"
+            "io/ioutil"
+          )
+
+          func main() {
+            reqUrl := "https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken"
+           
+            req, _ := http.NewRequest("GET", reqUrl)
+            req.Header.Add("Content-Type", "application/json")
+            req.Header.Add("x-Authorization", "string")            
+            res, _ := http.DefaultClient.Do(req)
+            defer res.Body.Close()
+            body, _ := ioutil.ReadAll(res.Body)
+
+            fmt.Println(res)
+            fmt.Println(string(body))
+          }
+    -  lang: PHP
+       source: |
+            /**
+            * Requires libcurl
+            */
+          
+            $curl = curl_init();
+            
+            
+            
+            curl_setopt_array($curl, [
+              CURLOPT_HTTPHEADER => [
+                "Content-Type: application/json",
+                "x-Authorization: string"                
+              ],
+              CURLOPT_POSTFIELDS => json_encode($payload),
+              CURLOPT_URL => "https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken",
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_CUSTOMREQUEST => "GET",
+            ]);
+            
+            $response = curl_exec($curl);
+            $error = curl_error($curl);
+            
+            curl_close($curl);
+            
+            if ($error) {
+              echo "cURL Error #:" . $error;
+            } else {
+              echo $response;
+            }       
+    - lang : Ruby
+      source: |
+          require 'json'
+          require 'uri'
+          require 'net/http'
+          require 'openssl'
+          
+          url = URI('https://sandbox.echohealthinc.com/echoexternalapi/api/v1/ValidateToken')
+          
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          
+          request = Net::HTTP::Get.new(url)
+          request['Content-Type'] = 'application/json'
+          request['x-Authorization'] = 'string'          
+          
+          response = http.request(request)
+          puts response.read_body           

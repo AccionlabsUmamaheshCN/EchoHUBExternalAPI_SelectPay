@@ -1,0 +1,96 @@
+type: object
+properties:
+  This is the Response for Response Code 001:
+    type: object
+    properties:
+      ResponseCode:
+        type: integer
+        description: Response Code 001
+      ResponseCodeDesc:
+        type: string
+        description: Transaction Approved
+      Token:
+        type: string
+        description: Token Value
+      ConsumerId:
+        type: string
+        description: Consumer Id Value
+      EndPointUrl:
+        type: string
+        description: Url of the endpoint which is trying to call  
+
+      TransLog for Payment Response Code 001:
+        type: object
+        properties:
+          AuthToken:
+            type: string
+            description: Authorization Token           
+
+  This is the Response for Response Code 900:
+    type: object
+    properties:
+      ResponseCode:
+        type: integer
+        description: Response Code 900
+      ResponseCodeDesc:
+        type: string
+        description: Security Validation Process Failed
+     
+      TransError for Payment Response Code 900:
+        type: object
+        properties:
+          ErrorCode:
+            type: string
+            description: 900
+          ErrorCodeDesc:
+            type: string
+            description: Security Validation Process Failed
+          creationdate:
+            type: string
+            description: Current Date & Time
+  This is the Response for Response Code 904:
+    type: object
+    properties:
+      ResponseCode:
+        type: integer
+        description: Response Code 904
+      ResponseCodeDesc:
+        type: string
+        description: Invalid Endpoint for Token
+      
+      TransError for Payment Response Code 904:
+        type: object
+        properties:
+          ErrorCode:
+            type: string
+            description: 904
+          ErrorCodeDesc:
+            type: string
+            description: Invalid Endpoint for Token
+          creationdate:
+            type: string
+            description: Current Date & Time
+  This is the Response for Response Code 907:
+    type: object
+    properties:
+      ResponseCode:
+        type: integer
+        description: Response Code 907
+      ResponseCodeDesc:
+        type: string
+        description: System Error
+      
+      TransError for Payment Response Code 907:
+        type: object
+        properties:
+          ErrorCode:
+            type: string
+            description: 907
+          ErrorCodeDesc:
+            type: string
+            description: System Error
+          creationdate:
+            type: string
+            description: Current Date & Time                      
+                
+                     

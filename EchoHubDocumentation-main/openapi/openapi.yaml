@@ -33,6 +33,8 @@ paths:
     $ref: paths/Authentication/api@RequestAuthentication@V1.yaml
   /api/v1/GetTokenByAppCode:
     $ref: paths/Authentication/api@TokenAppcodeRequestAuthentication@V1.yaml     
+  /api/v1/validatetoken:
+    $ref: paths/Authentication/api@ValidateToken@V1.yaml
 
 
   #SelectPay Portal
@@ -70,7 +72,7 @@ components:
       description: The Client key
       name: x-ClientKey
       in: header
-    ApiKeyAuth:
+    x-Authorization:
       type: apiKey
       name: x-Authorization
       in: header

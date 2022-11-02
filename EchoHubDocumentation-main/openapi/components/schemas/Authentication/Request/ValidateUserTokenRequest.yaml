@@ -1,0 +1,13 @@
+required:
+  - x-Authorization
+  
+type: object
+properties:
+  x-Authorization:
+    type: string
+    description: 
+      This is the Token to be validated
+       
+    maxLength: 150
+    minLength: 1
+   
