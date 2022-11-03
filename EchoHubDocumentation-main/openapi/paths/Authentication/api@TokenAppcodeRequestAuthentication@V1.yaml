@@ -5,8 +5,7 @@ get:
   operationId: GetAuthTokenByAppCode
   security:
     - x-Appcode: []
-    - Origin: []
-    - Referer: []
+    
 
   description: >
       Once the user is authenticated, this endpoint generates an authorization
